@@ -8,7 +8,7 @@ The system uses a decoupled client-server architecture:
 
 ```mermaid
 flowchart LR
-    Browser["Web Browser\n(GitHub Pages)"]
+    Browser["Web Browser\n(Vercel)"]
     API["J2EE Backend\n(Java Servlets)"]
     DB[("PostgreSQL DB")]
 
@@ -38,8 +38,8 @@ flowchart LR
    ```bash
    mvn tomcat7:run
    ```
-   *The server will start on `http://localhost:8080`.*
-3. You can verify it's running by opening `http://localhost:8080/api/feedback` in your browser.
+   *The server will start on `http://localhost:8081`.*
+3. You can verify it's running by opening `http://localhost:8081/api/feedback` in your browser.
 
 ### 2. Frontend
 Since the frontend uses pure HTML/JS/CSS, no build step is required!
@@ -53,12 +53,13 @@ Since the frontend uses pure HTML/JS/CSS, no build step is required!
 
 ## Deployment Instructions
 
-### GitHub Pages (Frontend)
-1. Commit the `frontend/` directory to a GitHub repository.
-2. Go to **Settings > Pages**.
-3. Under **Build and deployment**, select **Deploy from a branch**.
-4. Select the `main` branch and the `/frontend` folder (or just the root if you moved it to a separate repo).
-5. **IMPORTANT**: Open `frontend/app.js` and change `CONFIG.API_URL` to point to your live Java backend URL instead of `localhost:8080`.
+### Vercel (Frontend)
+1. Commit the `frontend/` directory and push it to your GitHub repository.
+2. Go to [Vercel.com](https://vercel.com) and log in with GitHub.
+3. Click **Add New > Project** and import your `J2EE_feedback` repository.
+4. **IMPORTANT**: In the deployment settings, change the **Root Directory** from `./` to `frontend`.
+5. Click **Deploy**.
+6. **Note**: Before pushing to production, open `frontend/app.js` and change `CONFIG.API_URL` to point to your live Java backend URL instead of `localhost:8081`.
 
 ### Java Backend Deployment (e.g. AWS, Render, Railway, Tomcat Server)
 1. Inside the `backend/` directory, run `mvn clean package`.
@@ -67,4 +68,5 @@ Since the frontend uses pure HTML/JS/CSS, no build step is required!
 4. Configure the environment variables (`DB_URL`, `DB_USER`, `DB_PASSWORD`) on your host provider to point to your hosted PostgreSQL database.
 
 #### CORS Configuration
-The backend includes a built-in `CorsFilter.java` (implemented via `javax.servlet.Filter`) mapped to `/*`. By default, it allows all origins (`*`) so that your GitHub Pages domain can make API calls without being blocked by the browser. For production, you may want to change `*` to your exact GitHub Pages URL in `CorsFilter.java`.
+#### CORS Configuration
+The backend includes a built-in `CorsFilter.java` (implemented via `javax.servlet.Filter`) mapped to `/*`. By default, it allows all origins (`*`) so that your Vercel domain can make API calls without being blocked by the browser. For production, you may want to change `*` to your exact Vercel URL in `CorsFilter.java`.
