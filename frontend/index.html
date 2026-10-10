@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Feedback Form</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header class="form-header">
+            <h1>Event Feedback</h1>
+            <p>Thank you for attending our recent event. We value your feedback to help us improve future workshops and events.</p>
+        </header>
+
+        <div id="success-message" class="hidden">
+            <svg class="success-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <h2>Feedback Submitted!</h2>
+            <p>Your response has been successfully recorded.</p>
+            <button type="button" class="btn btn-secondary" onclick="resetForm()">Submit another response</button>
+        </div>
+
+        <form id="feedback-form" onsubmit="submitFeedback(event)">
+            <div id="error-message" class="error-banner hidden"></div>
+
+            <div class="form-section">
+                <h3>Participant Details</h3>
+                
+                <div class="form-group">
+                    <label for="eventName">Event Name <span class="required">*</span></label>
+                    <input type="text" id="eventName" name="eventName" required placeholder="e.g., Tech Symposium 2026">
+                </div>
+
+                <div class="row">
+                    <div class="form-group">
+                        <label for="name">Full Name <span class="text-muted">(Optional)</span></label>
+                        <input type="text" id="name" name="name" placeholder="John Doe">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">Email Address <span class="text-muted">(Optional)</span></label>
+                        <input type="email" id="email" name="email" placeholder="john@example.com">
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-group">
+                        <label for="department">Department <span class="required">*</span></label>
+                        <input type="text" id="department" name="department" required placeholder="e.g., Computer Science">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="year">Year of Study <span class="required">*</span></label>
+                        <select id="year" name="year" required>
+                            <option value="">Select Year</option>
+                            <option value="First Year">First Year</option>
+                            <option value="Second Year">Second Year</option>
+                            <option value="Third Year">Third Year</option>
+                            <option value="Fourth Year">Fourth Year</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h3>Ratings</h3>
+                <p class="section-desc">Please rate various aspects of the event from 1 (Poor) to 5 (Excellent).</p>
+
+                <div class="rating-group">
+                    <label>Overall Event Experience <span class="required">*</span></label>
+                    <div class="stars" data-for="overallRating">
+                        <input type="radio" name="overallRating" value="1" required aria-label="1 star">
+                        <input type="radio" name="overallRating" value="2" required aria-label="2 stars">
+                        <input type="radio" name="overallRating" value="3" required aria-label="3 stars">
+                        <input type="radio" name="overallRating" value="4" required aria-label="4 stars">
+                        <input type="radio" name="overallRating" value="5" required aria-label="5 stars">
+                    </div>
+                </div>
+
+                <div class="rating-group">
+                    <label>Technical Content Quality <span class="required">*</span></label>
+                    <div class="stars" data-for="contentRating">
+                        <input type="radio" name="contentRating" value="1" required aria-label="1 star">
+                        <input type="radio" name="contentRating" value="2" required aria-label="2 stars">
+                        <input type="radio" name="contentRating" value="3" required aria-label="3 stars">
+                        <input type="radio" name="contentRating" value="4" required aria-label="4 stars">
+                        <input type="radio" name="contentRating" value="5" required aria-label="5 stars">
+                    </div>
+                </div>
+
+                <div class="rating-group">
+                    <label>Event Organization <span class="required">*</span></label>
+                    <div class="stars" data-for="organizationRating">
+                        <input type="radio" name="organizationRating" value="1" required aria-label="1 star">
+                        <input type="radio" name="organizationRating" value="2" required aria-label="2 stars">
+                        <input type="radio" name="organizationRating" value="3" required aria-label="3 stars">
+                        <input type="radio" name="organizationRating" value="4" required aria-label="4 stars">
+                        <input type="radio" name="organizationRating" value="5" required aria-label="5 stars">
+                    </div>
+                </div>
+
+                <div class="rating-group">
+                    <label>Venue and Facilities <span class="required">*</span></label>
+                    <div class="stars" data-for="venueRating">
+                        <input type="radio" name="venueRating" value="1" required aria-label="1 star">
+                        <input type="radio" name="venueRating" value="2" required aria-label="2 stars">
+                        <input type="radio" name="venueRating" value="3" required aria-label="3 stars">
+                        <input type="radio" name="venueRating" value="4" required aria-label="4 stars">
+                        <input type="radio" name="venueRating" value="5" required aria-label="5 stars">
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h3>Additional Feedback</h3>
+
+                <div class="form-group">
+                    <label>Would you recommend our future events to others? <span class="required">*</span></label>
+                    <div class="radio-cards">
+                        <label class="radio-card">
+                            <input type="radio" name="recommendation" value="YES" required>
+                            <span class="card-content">Yes</span>
+                        </label>
+                        <label class="radio-card">
+                            <input type="radio" name="recommendation" value="MAYBE" required>
+                            <span class="card-content">Maybe</span>
+                        </label>
+                        <label class="radio-card">
+                            <input type="radio" name="recommendation" value="NO" required>
+                            <span class="card-content">No</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="comments">Written Suggestions <span class="text-muted">(Optional)</span></label>
+                    <textarea id="comments" name="comments" rows="4" placeholder="How can we improve?"></textarea>
+                </div>
+            </div>
+
+            <button type="submit" id="submitBtn" class="btn btn-primary">
+                <span class="btn-text">Submit Feedback</span>
+                <span class="btn-loader hidden"></span>
+            </button>
+        </form>
+    </div>
+    
+    <script src="app.js"></script>
+</body>
+</html>
