@@ -1,6 +1,6 @@
 # College Event Feedback System
 
-A polished, single-page feedback form built with HTML/CSS/Vanilla JS and a J2EE (Servlets) backend, connected to a PostgreSQL database.
+A polished, single-page feedback form built with HTML/CSS/Vanilla JS and a J2EE (Servlets) backend, connected to a **Supabase PostgreSQL database**.
 
 ## Architecture
 
@@ -10,7 +10,7 @@ The system uses a decoupled client-server architecture:
 flowchart LR
     Browser["Web Browser\n(Vercel)"]
     API["J2EE Backend\n(Java Servlets)"]
-    DB[("PostgreSQL DB")]
+    DB[("Supabase\n(PostgreSQL DB)")]
 
     Browser -- "HTTP POST (JSON)" --> API
     API -- "JDBC SQL" --> DB
@@ -21,14 +21,14 @@ flowchart LR
 ## System Requirements
 - **Frontend**: Any modern web browser.
 - **Backend**: Java 8+, Apache Maven.
-- **Database**: PostgreSQL 12+.
+- **Database**: Supabase (PostgreSQL 12+).
 
 ## Database Setup
 
-1. Install and start PostgreSQL.
-2. Create a database named `feedback_db` (or whatever you prefer).
-3. Run the SQL schema script located at `backend/src/main/resources/schema.sql` against your database.
-4. Copy `.env.example` to set your credentials (if deploying) or just set them in your system environment variables `DB_URL`, `DB_USER`, `DB_PASSWORD`. If not set, the app defaults to `localhost:5432/feedback_db` with `postgres/postgres`.
+1. Create a free project on [Supabase](https://supabase.com).
+2. Once provisioned, open the **SQL Editor** in your Supabase dashboard.
+3. Paste and run the SQL schema script located at `backend/src/main/resources/schema.sql` to create your `feedback` table.
+4. Go to **Project Settings > Database**, find your JDBC connection string, and set it via environment variables (`DB_URL`, `DB_USER`, `DB_PASSWORD`) before starting the backend.
 
 ## Running Locally
 
@@ -67,6 +67,5 @@ Since the frontend uses pure HTML/JS/CSS, no build step is required!
 3. Deploy this `.war` file to any Java-compatible platform (like Apache Tomcat, WildFly, or a cloud PaaS that supports Java).
 4. Configure the environment variables (`DB_URL`, `DB_USER`, `DB_PASSWORD`) on your host provider to point to your hosted PostgreSQL database.
 
-#### CORS Configuration
 #### CORS Configuration
 The backend includes a built-in `CorsFilter.java` (implemented via `javax.servlet.Filter`) mapped to `/*`. By default, it allows all origins (`*`) so that your Vercel domain can make API calls without being blocked by the browser. For production, you may want to change `*` to your exact Vercel URL in `CorsFilter.java`.
